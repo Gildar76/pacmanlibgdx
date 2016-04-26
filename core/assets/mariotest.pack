@@ -1,0 +1,12 @@
+
+mariotest1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smb
+  rotate: false
+  xy: 2, 2
+  size: 436, 261
+  orig: 436, 261
+  offset: 0, 0
+  index: -1
