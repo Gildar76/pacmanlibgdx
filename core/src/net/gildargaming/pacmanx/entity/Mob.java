@@ -82,11 +82,11 @@ public class Mob extends Entity {
 		} else if (direction == Direction.UP) {
 			yPos += movementSpeed * delta;
 		}
-		System.out.print(this.direction);
+		//System.out.print(this.direction);
 		if (screen.level.checkTileIntersect(xPos + this.sprite.getWidth() / 2, yPos + this.sprite.getHeight() / 2)) {
 			xPos = oldxPos;
 			yPos = oldYpos;
-			System.out.println("blocked");
+			//System.out.println("blocked");
 
 		}
 		

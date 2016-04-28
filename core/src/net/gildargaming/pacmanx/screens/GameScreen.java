@@ -31,8 +31,9 @@ public class GameScreen implements Screen {
 		this.game = game;
 		cam = new OrthographicCamera();
 		vp = new FitViewport(game.WIDTH, game.HEIGHT, cam);
-		level = new Level("pmbaselevel.tmx", this);
 		atlas = new TextureAtlas("pm2.pack");
+		level = new Level("pmbaselevel.tmx", this);
+
 		
 		int[] animInfo = {0,0,16,16,2,0};
 		//testSprite = new SpriteHandler(this, "AIPac", 100, 100, 16, 16, 16, 0);
@@ -45,8 +46,8 @@ public class GameScreen implements Screen {
 		//animInfo[6] = animationspeed
 		//testMob = new Mob(100, 100, this, "AIPac", animInfo, 0.1f);
 
-
-		player = new Player(50, 50, this, "AIPac", animInfo, 0.1f);
+		float[] xy = level.getPlayerStartPosition();
+		player = new Player(xy[0], xy[1], this, "AIPac", animInfo, 0.1f);
 		player.setMovementSpeed(20f);
 		player.setDirection(Direction.RIGHT);
 		
@@ -98,6 +99,7 @@ public class GameScreen implements Screen {
 		level.update(delta);
 		//testMob.update(delta);
 		player.update(delta);
+		
 	}
 	
 	public void render(float delta) {
@@ -107,7 +109,7 @@ public class GameScreen implements Screen {
 		game.batch.setProjectionMatrix(cam.combined);
 		level.render(delta);
 		game.batch.begin();
-		
+		level.ghosts[0].render(game.batch, delta);
 		//game.batch.draw(img, 0, 0);
 		player.render(game.batch, delta);
 		//testSprite.draw(game.batch);

@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" nextobjectid="30">
  <tileset firstgid="1" name="walls" tilewidth="16" tileheight="16" tilecount="18" columns="18">
   <image source="Walls.bmp" trans="ffffff" width="288" height="16"/>
  </tileset>
  <layer name="walls" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJytk40KgzAMhKNznX+w93/bOWgg3u6aOgwUsRcvn0k7mtnrpjUdq9h9UYLfGOqsdW8h2hS+jZqzFdCxHmqz0NxrqP5vO/dC+alaxc58LJjfIjT02+x3Xs+qPRp78X1I+K5GxreTPXXu0E/V6+VCv9YZY+wsL/qxnmd8asZZvuLzuvGMs//F/N7I7psHq5XNl/3bClqL6wqf6knvfFv5igv9WlwzPL0n7C4zrn/n+40P3OwFLw==
+   eJytVAEKgzAMjK7rah3s/7/dBg3E89JE8CCIuXq5NqmriLxuivKLKvehGr3V1OkjtxGumG8tp94q8FgPueZwqrUM/Y8cz8LT82pVOfpjYHqbw6HeLud+PQf3mOTs+xL4u4rI35vkOllfiB5Dm3DoC/XYjCmYdzaLVo+dufYy4wv1Zus9f1rXzjjbL67PIrpvCna3o/6yvXXgZr6u+PPOJNtfXN/gKU4+298squNLA/9hUfzn4QvV4AVi
   </data>
  </layer>
+ <objectgroup name="playerstartpos">
+  <object id="29" x="16" y="288" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ghoststartpos">
+  <object id="23" x="160" y="48" width="16" height="16"/>
+  <object id="24" x="160" y="80" width="16"/>
+  <object id="25" x="176" y="48" width="16" height="16"/>
+  <object id="26" x="176" y="80" width="16" height="16"/>
+ </objectgroup>
 </map>

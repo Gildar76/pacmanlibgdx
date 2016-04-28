@@ -16,7 +16,7 @@ public class Player extends Mob {
 	private int rotation;
 
 	
-	public Player(int x, int y, GameScreen screen, String regionName, int[] animInfo, float animSpeed) {
+	public Player(float x, float y, GameScreen screen, String regionName, int[] animInfo, float animSpeed) {
 		super(x, y, screen, regionName, animInfo, animSpeed);
 		setPlayerAnimations(animInfo, regionName);
 	}	
