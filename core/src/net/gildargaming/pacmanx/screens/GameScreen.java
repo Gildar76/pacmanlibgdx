@@ -17,7 +17,7 @@ import net.gildargaming.pacmanx.world.Level;
 
 public class GameScreen implements Screen {
 
-	public Player player;
+
 	public OrthographicCamera cam;
 	public Viewport vp;
 	public MainGame game;
@@ -47,9 +47,7 @@ public class GameScreen implements Screen {
 		//testMob = new Mob(100, 100, this, "AIPac", animInfo, 0.1f);
 
 		float[] xy = level.getPlayerStartPosition();
-		player = new Player(xy[0], xy[1], this, "AIPac", animInfo, 0.1f);
-		player.setMovementSpeed(20f);
-		player.setDirection(Direction.RIGHT);
+
 		
 	}
 	
@@ -98,7 +96,7 @@ public class GameScreen implements Screen {
 	public void update(float delta) {
 		level.update(delta);
 		//testMob.update(delta);
-		player.update(delta);
+
 		
 	}
 	
@@ -111,7 +109,7 @@ public class GameScreen implements Screen {
 		game.batch.begin();
 		level.ghosts[0].render(game.batch, delta);
 		//game.batch.draw(img, 0, 0);
-		player.render(game.batch, delta);
+		level.player.render(game.batch, delta);
 		//testSprite.draw(game.batch);
 		//testMob.render(game.batch, delta);
 		game.batch.end();

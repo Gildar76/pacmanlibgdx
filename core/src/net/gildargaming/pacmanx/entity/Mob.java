@@ -13,6 +13,7 @@ import net.gildargaming.pacmanx.world.Level;
 
 public class Mob extends Entity {
 
+	public Level level;
 	private boolean isMoving;
 	protected Direction direction;
 	protected Animation animation;
@@ -24,8 +25,9 @@ public class Mob extends Entity {
 	private float movementSpeed;
 	
 	
-	public Mob(float x, float y, GameScreen screen, String regionName, int[] animInfo, float animSpeed) {
+	public Mob(float x, float y, GameScreen screen, String regionName, int[] animInfo, float animSpeed, Level level) {
 		super(x,y);
+		this.level = level;
 		this.animSpeed = animSpeed;
 		this.screen = screen;
 		stateTimer = 0f;

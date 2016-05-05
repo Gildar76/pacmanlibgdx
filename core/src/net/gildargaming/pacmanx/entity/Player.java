@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 import net.gildargaming.pacmanx.Direction;
 import net.gildargaming.pacmanx.screens.GameScreen;
+import net.gildargaming.pacmanx.world.Level;
 
 public class Player extends Mob {
 
@@ -16,8 +17,8 @@ public class Player extends Mob {
 	private int rotation;
 
 	
-	public Player(float x, float y, GameScreen screen, String regionName, int[] animInfo, float animSpeed) {
-		super(x, y, screen, regionName, animInfo, animSpeed);
+	public Player(float x, float y, GameScreen screen, String regionName, int[] animInfo, float animSpeed, Level level) {
+		super(x, y, screen, regionName, animInfo, animSpeed, level);
 		setPlayerAnimations(animInfo, regionName);
 	}	
 
