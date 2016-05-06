@@ -85,7 +85,7 @@ public class Mob extends Entity {
 			yPos += movementSpeed * delta;
 		}
 		//System.out.print(this.direction);
-		if (screen.level.checkTileIntersect(xPos + this.sprite.getWidth() / 2, yPos + this.sprite.getHeight() / 2)) {
+		if (screen.level.checkTileIntersect(xPos , yPos  )) {
 			xPos = oldxPos;
 			yPos = oldYpos;
 			//System.out.println("blocked");

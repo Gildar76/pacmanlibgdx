@@ -22,6 +22,8 @@ import net.gildargaming.pacmanx.ai.Node;
 import net.gildargaming.pacmanx.entity.Ghost;
 import net.gildargaming.pacmanx.entity.Player;
 import net.gildargaming.pacmanx.screens.GameScreen;
+import net.gildargaming.pacmanx.util.Debug;
+import net.gildargaming.pacmanx.util.Vector2i;
 
 public class Level {
 
@@ -34,6 +36,7 @@ public class Level {
 	public Ghost[] ghosts; 
 	private int[][] grid;
 	public float aiUpdate = 0;
+	public Debug dbg;
 	
 	private Comparator<Node> nodeSort = new Comparator<Node>() {
 		public int compare(Node n1, Node n2) {
@@ -83,6 +86,7 @@ public class Level {
 	    }
 
 		ghosts[0].setMovementSpeed(20f);
+		dbg = new Debug(grid);
 	}
 	
 	public float[] getPlayerStartPosition() {
@@ -111,12 +115,12 @@ public class Level {
 		return (walls.getCell((int)(xPos / walls.getTileWidth()), (int)(yPos / walls.getTileHeight())) != null ) ? true : false;
 	}
 	
-	public List<Node> findPath(Vector2 start, Vector2 end) {
+	public List<Node> findPath(Vector2i start, Vector2i end) {
 		List<Node> openList = new ArrayList<Node>();
-		end.x = Math.round(end.x);
-		end.y = Math.round(end.y);
-		start.x = Math.round(start.x);
-		start.y = Math.round(start.y);
+		//end.x = Math.round(end.x);
+		//end.y = Math.round(end.y);
+		//start.x = Math.round(start.x);
+		//start.y = Math.round(start.y);
 		List<Node> closedList = new ArrayList<Node>();		
 		Node current = new Node(start, 0, getDistance(start, end), null);
 		
@@ -129,8 +133,8 @@ public class Level {
 			//if (current.parent != null) System.out.println(current.parent.nodePos.toString());
 			
 			if (current.nodePos.x == end.x && current.nodePos.y == end.y) {
-				System.out.println(end.toString());
-				System.out.println(current.nodePos.toString());				
+				//System.out.println(end.toString());
+				//System.out.println(current.nodePos.toString());				
 				List<Node> path = new ArrayList<Node>();
 
 				while (current.parent != null) {
@@ -143,7 +147,7 @@ public class Level {
 				openList.clear();
 				closedList.clear();
 				for (Node n : path) {
-					System.out.println(n.nodePos.toString());
+					//System.out.println(n.nodePos.toString());
 				}
 				return path;
 			}
@@ -154,14 +158,14 @@ public class Level {
 				//Skip diagonals since we don't want to allow diagonal movement right now.
 				if (i == 0 || i == 2 || i == 4 || i == 6 || i == 8) continue;
 				
-				float x = current.nodePos.x;
-				float y = current.nodePos.y;
+				int x = current.nodePos.x;
+				int y = current.nodePos.y;
 				
 				int xd = (i % 3) - 1;
 				int yd = (i / 3) - 1;
-				if (grid[(int)x + xd][(int)y+yd] == 1) continue;
+				if (grid[x + xd][y+yd] == 1) continue;
 				
-				Vector2 v = new Vector2((float)xd + Math.round(x), (float)yd + Math.round(y));
+				Vector2i v = new Vector2i(xd + x, yd + y);
 				
 				double gCost = current.gCost + getDistance(current.nodePos, v);
 				
@@ -179,15 +183,15 @@ public class Level {
 		return null;
 	}
 	
-	private boolean vectorInNodeList(Vector2 v, List<Node> l) {
+	private boolean vectorInNodeList(Vector2i v, List<Node> l) {
 		for (Node n : l) {
-			if (n.nodePos.equals(v)) return true;
+			if (n.nodePos.x == v.x && n.nodePos.y == v.y) return true;
 			
 		}
 		return false;
 	}
 	
-	public double getDistance(Vector2 v1, Vector2 v2) {
+	public double getDistance(Vector2i v1, Vector2i v2) {
 		return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2));
 		
 	}
@@ -195,9 +199,9 @@ public class Level {
 	public void update(float delta) {
 	    renderer.setView(screen.cam);
 	    aiUpdate += delta;
-	    
-		if (aiUpdate >= 1.0f) {
-			ghosts[0].findPathToPlayer(new Vector2(player.xPos / 16, player.yPos / 16));
+	    System.out.println(grid[12][16]);
+		if (aiUpdate >= 0.2f) {
+			ghosts[0].findPathToPlayer(new Vector2i((player.xPos + 8) / 16, (player.yPos + 8) / 16));
 			aiUpdate = 0;
 		}
 	    ghosts[0].update(delta);
@@ -208,6 +212,6 @@ public class Level {
 	
 	public void render(float dt) {
 		renderer.render();
-
+		dbg.render();
 	}
 }
