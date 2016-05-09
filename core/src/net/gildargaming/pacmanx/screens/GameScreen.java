@@ -31,11 +31,11 @@ public class GameScreen implements Screen {
 		this.game = game;
 		cam = new OrthographicCamera();
 		vp = new FitViewport(game.WIDTH, game.HEIGHT, cam);
-		atlas = new TextureAtlas("pm2.pack");
-		level = new Level("pmbaselevel.tmx", this);
+		atlas = new TextureAtlas("pmassets8.pack");
+		level = new Level("maps/map.tmx", this);
 
 		
-		int[] animInfo = {0,0,16,16,2,0};
+		int[] animInfo = {0,0,8,8,2,0};
 		//testSprite = new SpriteHandler(this, "AIPac", 100, 100, 16, 16, 16, 0);
 		//animInfo[0] = startTileX;
 		//animInfo[1] = startTileY;
@@ -107,7 +107,9 @@ public class GameScreen implements Screen {
 		game.batch.setProjectionMatrix(cam.combined);
 		level.render(delta);
 		game.batch.begin();
-		level.ghosts[0].render(game.batch, delta);
+		for (int i = 0; i < level.ghosts.length; i++) {
+		   level.ghosts[i].render(game.batch, delta);			
+		}
 		//game.batch.draw(img, 0, 0);
 		level.player.render(game.batch, delta);
 		//testSprite.draw(game.batch);

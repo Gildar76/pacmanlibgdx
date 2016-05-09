@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="28" height="36" tilewidth="8" tileheight="8" nextobjectid="8">
+ <properties>
+  <property name="Hola" value="Casa"/>
+ </properties>
+ <tileset firstgid="1" name="MapTiles" tilewidth="8" tileheight="8" tilecount="36" columns="9">
+  <image source="tileset.png" width="72" height="32"/>
+  <tile id="17">
+   <properties>
+    <property name="food" value="2"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="food" value="1"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="algo" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="37" source="meta-tiles.tsx"/>
+ <layer name="walls" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztVmtPAkEMbEQBlYeEOxXCU///f7SEIxmb6drdEwiPJvOl13b22u62Inf5T5koNpnoK54L/N4U3wVnnCnmBX5fwPek+GzwSHSoRz7PhsVDvhmcY050Vh+xsTrk6yg+GjwQndVHbKwO+U4hkfp5tfRqFq0f+3+sE36vFe8Z9tF8en2fqz/Ijm+s2Bpg31cSvw9To7dxR8458I6wvHn9Wcvv3o8K8uW8I2jflm8t+5wMwG7Y6FYZfBsClrfUebHH0ZfFjkqELyK2h7A/8f5G+Ox9Z7FT/liPpfhzbUHsL60/I+9nhI/tE5F7HXkHbNxb2icO+cI3sM18x7c3NY9Kc2WFxdnx9SSdq9L5znLeVbyKn6u2893m/EVOP99Zf+K8zp3vFYnz177kIdKfKb9z7J9sXzoWvH3pmuQHPjwo3Q==
+  </data>
+ </layer>
+ <layer name="FoodMap" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztVkEKACAI6w1d+/8/u0c1ZmYYG3jR1swKLUXIjkaaB2+Wwyo3Zs3MVwP0KojfPB97D1Zj8kE43e+2HvPuWf8YR/mysHClJz3pSc+D+/s88WJ+Oa0Vqjmakbz67Y4bpRfd35m/lpUXYYI/OlJbGc8=
+  </data>
+ </layer>
+ <layer name="MetaTiles" width="28" height="36" visible="0" opacity="0.13">
+  <data encoding="base64" compression="zlib">
+   eJztlEkOgDAMA/MZ+v8nckeAxnW6QQ++ZJETx0qJiLKxNA4RGX13MzzNptTQvq/x9YCzv6PXCD7F92r8mqc3d/yi6NObL8N/7v3detL/thflU7SqyVGPttpv1vv9wZ9Z9VQv+idr9M7+Z6P5XK2I5nR2xy/qT2nBp/pQjTv/YNW+HqCzbXCcUOKUYw==
+  </data>
+ </layer>
+ <objectgroup name="playerStartPos">
+  <object id="1" x="144" y="210" width="8" height="8"/>
+ </objectgroup>
+ <objectgroup name="ghostStartPos">
+  <object id="2" x="104" y="112" width="8" height="8"/>
+  <object id="3" x="96" y="136" width="8" height="8"/>
+  <object id="5" x="120" y="136" width="8" height="8"/>
+  <object id="6" x="104" y="136" width="8" height="8"/>
+ </objectgroup>
+ <layer name="passable" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAIA7CJwb9GnpkgtEkTALhpGgDggwWWLgBJ
+  </data>
+ </layer>
+</map>

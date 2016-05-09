@@ -15,11 +15,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import net.gildargaming.pacmanx.Direction;
 import net.gildargaming.pacmanx.MainGame;
 import net.gildargaming.pacmanx.ai.Node;
 import net.gildargaming.pacmanx.entity.Ghost;
+import net.gildargaming.pacmanx.entity.Mob;
 import net.gildargaming.pacmanx.entity.Player;
 import net.gildargaming.pacmanx.screens.GameScreen;
 import net.gildargaming.pacmanx.util.Debug;
@@ -37,7 +39,9 @@ public class Level {
 	private int[][] grid;
 	public float aiUpdate = 0;
 	public Debug dbg;
+	public int numFood;
 	
+	public TiledMapTileLayer food;	
 	private Comparator<Node> nodeSort = new Comparator<Node>() {
 		public int compare(Node n1, Node n2) {
 			if (n1.fCost > n2.fCost) return 1;
@@ -45,6 +49,7 @@ public class Level {
 			return 0;
 		}
 	};
+
 	public Level(String levelName, GameScreen screen) {
 		this.screen = screen;
 		mapLoader = new TmxMapLoader();
@@ -55,9 +60,9 @@ public class Level {
 	    Vector3 center = new Vector3(screen.game.WIDTH / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
 	    screen.cam.position.set(center);		
 	    ghosts = new Ghost[4];
-	    float xy[] = this.getGhostStartPosition();
+	    float xy[] = this.getGhostStartPosition(0);
 		float ghostAnimSpeed = 0.5f;
-	    int[] animInfo = {0,0,16,16,2,0};
+	    int[] animInfo = {0,0,8,8,7,0};
 		//testSprite = new SpriteHandler(this, "AIPac", 100, 100, 16, 16, 16, 0);
 		//animInfo[0] = startTileX;
 		//animInfo[1] = startTileY;
@@ -67,12 +72,38 @@ public class Level {
 		//animInfo[5] = endTileY;
 
 	    ghosts[0] = new Ghost(xy[0], xy[1], screen, "Ghosts", animInfo, ghostAnimSpeed, this);
+	    xy = this.getGhostStartPosition(1);
+		ghostAnimSpeed = 0.5f;
+	    animInfo[0] = 8;
+	    animInfo[1] = 0;
+	    animInfo[4] = 15;
+	    animInfo[5] = 0;
+	    ghosts[1] = new Ghost(xy[0], xy[1], screen, "Ghosts", animInfo, ghostAnimSpeed, this);	    
+	    xy = this.getGhostStartPosition(2);
+		ghostAnimSpeed = 0.5f;
+	    animInfo[0] = 16;
+	    animInfo[1] = 0;
+	    animInfo[4] = 23;
+	    animInfo[5] = 0;
+	    ghosts[2] = new Ghost(xy[0], xy[1], screen, "Ghosts", animInfo, ghostAnimSpeed, this);	    
+	    xy = this.getGhostStartPosition(3);
+		ghostAnimSpeed = 0.5f;
+	    animInfo[0] = 24;
+	    animInfo[1] = 0;
+	    animInfo[4] = 31;
+	    animInfo[5] = 0;
+	    ghosts[3] = new Ghost(xy[0], xy[1], screen, "Ghosts", animInfo, ghostAnimSpeed, this);	    
 	    //Get the tile map player to use for collision and stuff.
+	    animInfo[0] = 0;
+	    animInfo[1] = 0;
+	    animInfo[4] = 2;
+	    animInfo[5] = 0;
 	    xy = this.getPlayerStartPosition();
-	    player = new Player(xy[0], xy[1], screen, "AIPac", animInfo, 0.1f, this);
+	    player = new Player(xy[0]+3, xy[1]+3, screen, "AIPac", animInfo, 0.1f, this);
 		player.setMovementSpeed(20f);
 		player.setDirection(Direction.RIGHT);
 	    walls = (TiledMapTileLayer)map.getLayers().get("walls");
+	    food = (TiledMapTileLayer)map.getLayers().get("FoodMap");
 	    //Build a grid (used by AI)
 	    float gridTileWidth = walls.getTileWidth();
 	    float gridTileHeight = walls.getTileHeight();
@@ -86,12 +117,16 @@ public class Level {
 	    }
 
 		ghosts[0].setMovementSpeed(20f);
+		ghosts[1].setMovementSpeed(20f);
+		ghosts[2].setMovementSpeed(20f);
+		ghosts[3].setMovementSpeed(20f);
 		dbg = new Debug(grid);
+		
 	}
 	
 	public float[] getPlayerStartPosition() {
 		float[] xy = new float[2];
-		MapLayer layer = map.getLayers().get("playerstartpos");
+		MapLayer layer = map.getLayers().get("playerStartPos");
 		RectangleMapObject startPos = (RectangleMapObject)layer.getObjects().get(0);
 		Rectangle rect = startPos.getRectangle();
 		
@@ -101,18 +136,44 @@ public class Level {
 		return xy;
 	}
 	
-	public float[] getGhostStartPosition() {
+	public float[] getGhostStartPosition(int num) {
 		float[] xy = new float[2];
-		MapLayer layer = map.getLayers().get("ghoststartpos");
-		RectangleMapObject startPos = (RectangleMapObject)layer.getObjects().get(0);
+		MapLayer layer = map.getLayers().get("ghostStartPos");
+		RectangleMapObject startPos = (RectangleMapObject)layer.getObjects().get(num);
 		Rectangle rect = startPos.getRectangle();
 		
 		xy[0] = rect.getX();
 		xy[1] = rect.getY();
 		return xy;
 	}
-	public boolean checkTileIntersect(float xPos, float yPos) {
+
+	public void eatFood(float xPos, float yPos) {
+		if (food.getCell((int)(xPos / food.getTileWidth()), (int)(yPos / food.getTileHeight())) != null ) {
+			food.getCell((int)(xPos / food.getTileWidth()), (int)(yPos / food.getTileHeight())).setTile(null);
+		}
+	}	
+	
+	public boolean isWall(float xPos, float yPos) {
 		return (walls.getCell((int)(xPos / walls.getTileWidth()), (int)(yPos / walls.getTileHeight())) != null ) ? true : false;
+	}
+	
+	
+	public boolean checkTileCollision(Mob mob) {
+		if ( mob instanceof Player || mob instanceof Ghost) {
+			//System.out.print(mob.getBountary().x + mob.getBountary().radius -4);
+			//System.out.println("Is an instance of player or ghost");
+			if (isWall(mob.getBountary().x + mob.getBountary().radius - 2, mob.getBountary().y) || 
+					isWall(mob.getBountary().x - mob.getBountary().radius + 2, mob.getBountary().y) ||
+					isWall(mob.getBountary().x, mob.getBountary().y + mob.getBountary().radius -2) ||
+					isWall(mob.getBountary().x, mob.getBountary().y - mob.getBountary().radius + 2) 
+					) {
+
+				//System.out.print(mob.getBountary().x + mob.getBountary().radius -4);
+				return true;
+			}
+		}
+		return false;
+		
 	}
 	
 	public List<Node> findPath(Vector2i start, Vector2i end) {
@@ -163,7 +224,9 @@ public class Level {
 				
 				int xd = (i % 3) - 1;
 				int yd = (i / 3) - 1;
-				if (grid[x + xd][y+yd] == 1) continue;
+				if (x+xd < 0 || x + xd > grid.length) continue;
+				if (y+yd < 0 || y + yd > grid.length) continue;
+				if (grid[Math.floorMod(x + xd, grid.length)][Math.floorMod(y+yd, grid.length)] == 1) continue;
 				
 				Vector2i v = new Vector2i(xd + x, yd + y);
 				
@@ -199,12 +262,18 @@ public class Level {
 	public void update(float delta) {
 	    renderer.setView(screen.cam);
 	    aiUpdate += delta;
-	    System.out.println(grid[12][16]);
+	    //System.out.println(grid[12][16]);
 		if (aiUpdate >= 0.2f) {
-			ghosts[0].findPathToPlayer(new Vector2i((player.xPos + 8) / 16, (player.yPos + 8) / 16));
+			ghosts[0].findPathToPlayer(new Vector2i((player.xPos + 4) / 8, (player.yPos + 4) / 8));
+			ghosts[1].findPathToPlayer(new Vector2i((player.xPos + 4) / 8, (player.yPos + 4) / 8));
+			ghosts[2].findPathToPlayer(new Vector2i((player.xPos + 4) / 8, (player.yPos + 4) / 8));
+			ghosts[3].findPathToPlayer(new Vector2i((player.xPos + 4) / 8, (player.yPos + 4) / 8));
 			aiUpdate = 0;
 		}
-	    ghosts[0].update(delta);
+		for (int i = 0; i < ghosts.length; i++) {
+		    ghosts[i].update(delta);			
+		}
+
 		player.update(delta);
 
 

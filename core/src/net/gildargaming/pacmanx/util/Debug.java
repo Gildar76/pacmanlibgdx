@@ -19,11 +19,11 @@ public class Debug {
 		  // Gridlines
 	    shape.begin(ShapeType.Line);
 	    shape.setColor(Color.WHITE);
-	    for (int i = 0; i < Gdx.graphics.getHeight() / 32; i++) {
-	        shape.line(0, i * 32, Gdx.graphics.getWidth(), i * 32);
+	    for (int i = 0; i < Gdx.graphics.getHeight() / 1; i++) {
+	        //shape.line(0, i * 16, Gdx.graphics.getWidth(), i * 16);
 	    }
-	    for (int i = 0; i < Gdx.graphics.getWidth() / 32; i++) {
-	        shape.line(i * 32, 0, i * 32, Gdx.graphics.getHeight());
+	    for (int i = 0; i < Gdx.graphics.getWidth() / 1; i++) {
+	        //shape.line(i * 16, 0, i * 16, Gdx.graphics.getHeight());
 	    }
 	    shape.end();
 	}

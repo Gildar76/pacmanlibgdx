@@ -74,6 +74,7 @@ public class Player extends Mob {
 	}
 	public void update(float delta) {
 		detectInput();
+		level.eatFood(boundary.x, boundary.y);
 
 		super.update(delta);
 	}
